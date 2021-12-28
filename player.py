@@ -26,7 +26,7 @@ class HumanPlayer(Player):
         validSquare = False
         val = None
         while not validSquare:
-            square = input(self.letter + "'s turn. Input move 0-9: ")
+            square = input(self.letter + "'s turn. Input move 0-8: ")
             # validation
             try:
                 val = int(square)
