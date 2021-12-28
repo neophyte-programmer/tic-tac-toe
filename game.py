@@ -29,6 +29,19 @@ class TicTacToe:
     def numEmptySquares(self):
         return len(self.availableMoves())
 
+    def makeMove(self, square, letter):
+        if self.board[square] == " ":
+            self.board[square] = letter
+            if self.winner(square, letter):
+                self.currentWinner = letter
+            return True
+
+        return False
+
+    def winner(self, square, letter):
+        rowIndex = square // 3
+        row = self.board[row]
+
 
 def play(game, xPlayer, oPlayer, printGame=True):
     if printGame:
@@ -36,4 +49,24 @@ def play(game, xPlayer, oPlayer, printGame=True):
 
     letter = "X"    # starting letter
     while game.emptySquares():
-        pass
+        # get move from player
+        if letter == "O":
+            square = oPlayer.getMove(game)
+        else:
+            square = xPlayer.getMove(game)
+
+        if game.makeMove(square, letter):
+            if printGame:
+                print(letter + f"makes a move to square {square}")
+                game.printBoard()
+                print("")
+
+            if game.currentWinner:
+                if printGame:
+                    print(f"{letter} wins!")
+                return letter
+
+            letter == "O" if letter == "X" else "X"
+
+        if printGame:
+            print("It's a tie")
