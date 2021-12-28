@@ -1,3 +1,5 @@
+from player import HumanPlayer, RandomComputerPlayer
+
 class TicTacToe:
     def __init__(self):
         self.board = [" " for _ in range(9)]    # single list representing 3x3 board
@@ -39,8 +41,29 @@ class TicTacToe:
         return False
 
     def winner(self, square, letter):
+        # check if there is a win in row
         rowIndex = square // 3
-        row = self.board[row]
+        row = self.board[rowIndex*3: (rowIndex + 1) * 3]
+        if all([spot == letter for spot in row]):
+            return True
+
+        # check if there is a win in column
+        colIndex = square % 3
+        column = [self.board[colIndex+i*3] for i in range(3)]
+        if all([spot == letter for spot in column]):
+            return True
+
+        # check if there is a win in diagonal
+        # for this to be possible, the square has to be an even number because we are counting from 0
+        if square % 2 == 0:
+            diagonal1 = [self.board[i] for i in [0, 4, 8]]
+            if all([spot == letter for spot in diagonal1]):
+                return True
+            diagonal2 = [self.board[i] for i in [2, 4, 6]]
+            if all([spot == letter for spot in diagonal2]):
+                return True
+
+        return False
 
 
 def play(game, xPlayer, oPlayer, printGame=True):
@@ -57,7 +80,7 @@ def play(game, xPlayer, oPlayer, printGame=True):
 
         if game.makeMove(square, letter):
             if printGame:
-                print(letter + f"makes a move to square {square}")
+                print(letter + f" makes a move to square {square}")
                 game.printBoard()
                 print("")
 
@@ -66,7 +89,15 @@ def play(game, xPlayer, oPlayer, printGame=True):
                     print(f"{letter} wins!")
                 return letter
 
-            letter == "O" if letter == "X" else "X"
+            letter = "O" if letter == "X" else "X"
 
-        if printGame:
-            print("It's a tie")
+    if printGame:
+        print("It's a tie")
+
+
+if __name__ == "__main__":
+    xPlayer = HumanPlayer("X")
+    oPlayer = RandomComputerPlayer("O")
+    t = TicTacToe()
+    play(t, xPlayer, oPlayer, printGame=True)
+
