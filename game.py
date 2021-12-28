@@ -45,7 +45,7 @@ class TicTacToe:
     def winner(self, square, letter):
         # check if there is a win in row
         rowIndex = square // 3
-        row = self.board[rowIndex*3: (rowIndex + 1) * 3]
+        row = self.board[rowIndex*3: (rowIndex + 1) * 3]    # which row are we checking, 1st 2nd or 3rd
         if all([spot == letter for spot in row]):
             return True
 
