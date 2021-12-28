@@ -2,20 +2,37 @@ import time
 from player import HumanPlayer, RandomComputerPlayer
 
 
+def isOdd(num):
+    # use modulus to check if number is odd
+    if int(num) % 2 == 0: 
+        return False
+    else:
+        return True
+
+def createBoard() : 
+        validNumber = False
+        while not validNumber:
+            grid = input("What size of the grid do you want? (only odd numbers)")
+            validNumber = isOdd(grid)
+        return grid
+
 class TicTacToe:
+    grid = 0
+
     def __init__(self):
         self.board = [" " for _ in range(9)]    # single list representing 3x3 board
         self.currentWinner = None   # keep track of winner
+        self.grid = createBoard()
 
     def printBoard(self):
         # defining rows
-        for row in [self.board[i*3:(i+1)*3] for i in range(3)]:
+        for row in [self.board[i*int(self.grid):(i+1)*int(self.grid)] for i in range(int(self.grid))]:
             print("| " + " | ".join(row) + " |")
 
-    @staticmethod
-    def printBoardNums():
+    
+    def printBoardNums(self):
         # shows which numbers correspond to which box on the board
-        numberBoard = [[str(i) for i in range(j*3, (j+1)*3)] for j in range(3)]
+        numberBoard = [[str(i) for i in range(j*int(self.grid), (j+1)*int(self.grid))] for j in range(int(self.grid))]
         for row in numberBoard:
             print("| " + " | ".join(row) + " |")
 
@@ -97,6 +114,9 @@ def play(game, xPlayer, oPlayer, printGame=True):
 
     if printGame:
         print("It's a tie")
+
+
+
 
 
 if __name__ == "__main__":
